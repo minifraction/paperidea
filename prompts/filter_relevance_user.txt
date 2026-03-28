@@ -1,0 +1,43 @@
+请评估以下候选论文与原始论文的相关性。
+
+## 原始论文
+
+**研究模型**: {% if models %}{{models | join(', ')}}{% else %}未明确{% endif %}
+
+**核心问题**: {{problem if problem else "未明确"}}
+
+## 候选论文（共 {{papers | length }} 篇）
+
+{% for paper in papers %}
+### 论文 {{loop.index}}
+**标题**: {{paper.title}}
+**摘要**: {{paper.summary[:300] if paper.summary else "摘要不可用"}}...
+
+{% endfor %}
+
+## 任务
+
+对每篇候选论文，评估其与原始论文的相关性（0-10分）。
+
+请返回以下JSON格式：
+{
+    "evaluations": [
+        {
+            "paper_index": 1,
+            "relevance_score": 8,
+            "reasoning": "该论文研究XXX模型，与原始论文的YYY模型数学同构，都使用ZZZ框架"
+        },
+        {
+            "paper_index": 2,
+            "relevance_score": 4,
+            "reasoning": "虽然都涉及博弈论，但研究的具体模型差异较大，方法迁移可能性低"
+        }
+    ]
+}
+
+要求：
+1. 每篇论文必须给出具体评分（0-10的整数）
+2. 评分≥6的被认为是相关论文，建议保留
+3. 评分<6的建议过滤掉
+4. reasoning 必须简要说明评分的依据（1-2句话）
+5. 只返回JSON，不要有其他文字

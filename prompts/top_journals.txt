@@ -1,0 +1,9 @@
+# 通用顶级期刊列表
+# 格式：期刊全称 | 别名1,别名2,...
+# 空行和#开头的行会被忽略
+# 用户可自行添加其他顶刊
+
+Nature | Nature
+Nature Communications | Nature Communications,Nat Commun
+Science | Science
+PNAS | Proceedings of the National Academy of Sciences,PNAS

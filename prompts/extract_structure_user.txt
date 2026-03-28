@@ -1,0 +1,31 @@
+请分析以下学术论文的内容，提取关键信息并以 JSON 格式返回。
+
+论文内容:
+{{text_sample}}
+
+{% if abstract %}
+摘要: {{abstract}}
+{% endif %}
+
+请提取以下信息，以 JSON 格式返回:
+{
+    "title": "论文标题",
+    "abstract": "论文摘要（如果输入中有）",
+    "problem": "论文解决的核心问题（1-2句话）",
+    "method": "方法概述（2-3句话）",
+    "models": ["模型1", "模型2"],
+    "algorithms": ["算法1", "算法2"],
+    "datasets": ["数据集1", "数据集2"],
+    "contributions": ["贡献1", "贡献2", "贡献3"],
+    "limitations": ["局限性1", "局限性2"],
+    "future_work": ["未来工作1", "未来工作2"],
+    "key_citations": ["关键引用1", "关键引用2"]
+}
+
+注意:
+1. models: 论文研究/使用的具体模型名称（如 LLaMA、ResNet、Transformer等）
+2. algorithms: 使用的算法/技术名称（如 LoRA、对比学习、注意力机制等）
+3. datasets: 使用的数据集名称
+4. 如果某些信息在文本中找不到，可以留空数组或写"未明确提及"
+5. Limitations 和 Future Work 通常在论文的 Conclusion 或 Discussion 部分
+6. 只返回 JSON，不要其他解释

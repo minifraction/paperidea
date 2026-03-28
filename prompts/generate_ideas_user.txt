@@ -1,0 +1,145 @@
+基于以下论文信息，生成5-8个具体的研究延伸 Idea。
+
+## 原始论文
+
+**标题**: {{title}}
+
+**核心问题**: {{problem}}
+
+**方法**: {{method}}
+
+**模型与算法**: 
+{% if models %}
+- 研究模型: {{models | join(', ')}}
+{% endif %}
+{% if algorithms %}
+- 使用算法: {{algorithms | join(', ')}}
+{% endif %}
+{% if datasets %}
+- 使用数据集: {{datasets | join(', ')}}
+{% endif %}
+
+**主要贡献**: 
+{% for contribution in contributions %}
+- {{contribution}}
+{% endfor %}
+
+**局限性**: 
+{% if limitations %}
+{% for limitation in limitations %}
+- {{limitation}}
+{% endfor %}
+{% else %}
+- 未明确提及
+{% endif %}
+
+**作者指出的未来工作**: 
+{% if future_work %}
+{% for fw in future_work %}
+- {{fw}}
+{% endfor %}
+{% else %}
+- 未明确提及
+{% endif %}
+
+## AI推断的方法迁移建议
+{% if method_suggestions %}
+{% if method_suggestions.type_b1_same_model_alternatives %}
+**Type B1 - 同模型替代方法建议**:
+{% for sugg in method_suggestions.type_b1_same_model_alternatives %}
+- 模型「{{sugg.model}}」: 用「{{sugg.suggested_method}}」替代「{{sugg.current_method}}」
+  - 依据: {{sugg.reasoning}}
+  - 实现: {{sugg.implementation}}
+{% endfor %}
+{% endif %}
+
+{% if method_suggestions.type_b2_same_method_new_models %}
+**Type B2 - 同方法新模型建议**:
+{% for sugg in method_suggestions.type_b2_same_method_new_models %}
+- 方法「{{sugg.method}}」→ 模型「{{sugg.suggested_model}}」
+  - 数学同构性: {{sugg.isomorphism}}
+  - 预期结果: {{sugg.expected_result}}
+{% endfor %}
+{% endif %}
+{% else %}
+暂无AI推断的方法建议
+{% endif %}
+
+## 深度分析的相关论文（基于AI多轮分析）
+{% if analyzed_papers %}
+以下论文经过AI深度分析，包含方法解析和方法迁移建议：
+
+{% for paper in analyzed_papers %}
+### {{loop.index}}. {{paper.title}}
+{% if paper.is_top_journal %}⭐ 顶刊: {{paper.matched_journal}}{% endif %}
+- **该论文研究模型**: {{paper.analyzed_model if paper.analyzed_model else "未分析"}}
+- **使用的方法**: {{paper.method_used if paper.method_used else "未分析"}}
+- **核心发现**: {{paper.key_finding if paper.key_finding else "未分析"}}
+- **与原文关联度**: {{paper.relevance_level if paper.relevance_level else "未分析"}}
+- **方法迁移机会**: {{paper.method_transfer_opportunity if paper.method_transfer_opportunity else "未分析"}}
+
+{% endfor %}
+{% else %}
+暂无深度分析的论文
+{% endif %}
+
+## 相关论文调研（简要列表）
+{% if related_papers %}
+{{related_papers}}
+{% else %}
+暂无相关论文
+{% endif %}
+
+## 任务
+
+请生成5-8个从该论文出发的延伸 Idea。重点关注**方法迁移**类 Idea（最容易出论文）：
+
+### Idea 类型：
+
+1. **直接改进** (Type A): 解决论文明确提到的某个 Limitation ⚠️ 最难
+   - 针对原文的某个具体缺陷提出改进
+   - ⚠️ **注意**：如果容易改进，原作者大概率已经做了，需要深入分析为什么留下这个Limitation
+
+2. **方法迁移 - 同模型替代方法** (Type B1) ⭐ 最容易发表
+   - 基于AI推断的Type B1建议，将推荐的新方法应用到原模型上
+   - 实验成本相对较低，容易验证不同方法在同一模型上的效果差异
+   - **参考上面的"同模型替代方法建议"部分**
+
+3. **方法迁移 - 同方法新模型** (Type B2) ⭐ 最容易发表
+   - 基于AI推断的Type B2建议，将原文算法应用到数学同构的其他模型
+   - 实验成本相对较低，结果无论正负都有价值
+   - **参考上面的"同方法新模型建议"部分**
+
+4. **方法迁移 - 算法应用到新领域** (Type B3)
+   - 将核心算法应用到完全不同的任务/领域
+
+5. **组合创新** (Type C): 将该论文方法与其他技术结合
+
+6. **深度延伸** (Type D): 基于 Future Work 提出具体实现
+
+### 对每个 Idea，请提供：
+- **Idea 标题**: 简洁命名
+- **类型**: A/B1/B2/B3/C/D
+- **核心思路**: 2-3句话描述
+- **与原文的关系**: 基于原文的哪个部分/如何改进
+- **模型-方法组合**: 明确说明用什么模型 + 什么方法
+- **可行性**: 高/中/低
+- **创新性**: 高/中/低
+- **发表潜力**: 高/中/低（评估是否容易写成论文）
+- **预期挑战**: 可能遇到的困难
+
+### 特别强调：
+- **优先推荐 Type B1 和 Type B2**，这两类工作最容易发表
+  - B1: 基于AI建议，在同一模型上尝试替代方法（对比实验类）
+  - B2: 基于AI建议的数学同构性，将本文算法应用到其他模型（方法迁移类）
+- **Type A 谨慎选择**：如果 Limitation 容易解决，原作者大概率已经做了
+- 每个 Idea 都要明确具体的**模型名称**和**算法名称**
+- **充分利用AI推断的方法建议**：这些是专门为Type B1/B2设计的方向
+
+### 关于顶刊论文的特别说明：
+在相关调研结果中，如果某篇论文标记有 ⭐（表示发表于Nature/Science/PNAS/Nature Communications等顶级期刊），请**格外关注**这些论文：
+- 顶刊论文通常经过严格同行评议，代表该领域的高质量研究方向
+- 优先考虑与顶刊论文相关的 Type B1/B2 方法迁移（如：将本文方法应用到顶刊论文的模型上）
+- 关注顶刊论文之间的研究空白，可能存在高价值的研究机会
+- 借鉴顶刊论文的方法论思路，提升Idea的创新性和可行性
+- 在评估发表潜力时，如果某个Idea与顶刊论文方向相关，可适当提高评分

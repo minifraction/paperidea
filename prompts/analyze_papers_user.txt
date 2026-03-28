@@ -1,0 +1,48 @@
+请深度分析以下相关论文，提取方法信息并评估与原始论文的关联。
+
+## 原始论文
+
+**研究模型**: {% if models %}{{models | join(', ')}}{% else %}未明确{% endif %}
+
+**使用算法/方法**: {% if algorithms %}{{algorithms | join(', ')}}{% else %}未明确{% endif %}
+
+**核心问题**: {{problem if problem else "未明确"}}
+
+## 待分析的论文（共 {{papers | length }} 篇）
+
+{% for paper in papers %}
+### 论文 {{loop.index}}: {{paper.title}}
+**年份**: {{paper.published if paper.published else "未知"}}
+{% if paper.is_top_journal %}**期刊**: ⭐顶刊 {{paper.matched_journal}}{% endif %}
+
+**摘要**: {{paper.summary[:400] if paper.summary else "摘要不可用"}}...
+
+---
+
+{% endfor %}
+
+## 任务
+
+对每篇论文进行深度分析，提取以下信息：
+
+请返回以下JSON格式：
+{
+    "analyzed_papers": [
+        {
+            "paper_index": 1,
+            "analyzed_model": "该论文实际研究的具体模型名称",
+            "method_used": "使用的分析方法（如蒙特卡洛模拟、平均场近似等）",
+            "key_finding": "核心发现（1-2句话）",
+            "relevance_to_original": "高/中/低",
+            "relevance_reasoning": "为什么相关或不相关",
+            "method_transfer_opportunity": "该方法应用到原始模型的具体可能性和预期效果"
+        }
+    ]
+}
+
+要求：
+1. 每篇论文必须完整填写所有字段
+2. relevance_to_original 只能是"高"、"中"、"低"之一
+3. method_transfer_opportunity 要具体说明：原始论文的模型 + 这篇论文的方法 = 会有什么新发现
+4. 如果论文发表在顶刊（标记⭐），要格外关注其方法论
+5. 只返回JSON，不要有其他文字
